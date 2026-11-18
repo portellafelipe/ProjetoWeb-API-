@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ferramentas | Mundo em Viagem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <strong class="logo">Mundo em Viagem</strong>
+    <nav class="menu" aria-label="Menu principal">
+        <a href="index.html">Início</a>
+        <a href="explorar.html">Explorar</a>
+        <a href="ferramentas.html" aria-current="page">Ferramentas</a>
+        <a href="contato.html">Contato</a>
+    </nav>
+    <button type="button" id="botaoTema" class="botao">Modo escuro</button>
+  </header>
+  <main>
+    <h1>Ferramentas</h1>
+    <section class="cartao">
+      <h2>Dividir o custo da viagem</h2>
+      <p>Informe os gastos e veja quanto cada viajante paga.</p>
+      <label for="passagens">Passagens do grupo (R$)</label>
+      <input type="number" id="passagens" value="6000" min="0" required>
+      <label for="diaria">Diária da hospedagem (R$)</label>
+      <input type="number" id="diaria" value="400" min="0" required>
+      <label for="noites">Número de noites</label>
+      <input type="number" id="noites" value="7" min="1" required>
+      <label for="extras">Alimentação e passeios (R$)</label>
+      <input type="number" id="extras" value="3000" min="0" required>
+      <label for="orcamento">Orçamento do grupo (R$)</label>
+      <input type="number" id="orcamento" value="12000" min="0" required>
+      <label for="viajantes">Número de viajantes</label>
+      <input type="number" id="viajantes" value="4" min="1" required>
+      <button type="button" id="botaoCalcular" class="botao">Calcular</button>
+      <ul id="resultadoCalculo" aria-live="polite"></ul>
+    </section>
+    <section class="cartao">
+      <h2>Estatísticas dos destinos favoritos</h2>
+      <label for="minimoPopulacao">Mostrar países com pelo menos (milhões de habitantes)</label>
+      <input type="number" id="minimoPopulacao" value="50" min="0" required>
+      <button type="button" id="botaoEstatisticas" class="botao">Atualizar</button>
+      <ul id="listaEstatisticas"></ul>
+    </section>
+  </main>
+  <footer class="rodape">
+    <p>Projeto de Web Development: Front-End · PUCPR · Dados: <a href="https://restcountries.com/">REST Countries</a></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

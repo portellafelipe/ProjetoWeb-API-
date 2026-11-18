@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorar | Mundo em Viagem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <strong class="logo">Mundo em Viagem</strong>
+    <nav class="menu" aria-label="Menu principal">
+        <a href="index.html">Início</a>
+        <a href="explorar.html" aria-current="page">Explorar</a>
+        <a href="ferramentas.html">Ferramentas</a>
+        <a href="contato.html">Contato</a>
+    </nav>
+    <button type="button" id="botaoTema" class="botao">Modo escuro</button>
+  </header>
+  <main>
+    <h1>Explorar países</h1>
+    <section class="controles" aria-label="Busca e filtro">
+      <label for="busca">Buscar por nome</label>
+      <input type="search" id="busca" placeholder="Ex.: Japão">
+      <label for="filtroRegiao">Região</label>
+      <select id="filtroRegiao">
+        <option value="todas">Todas</option>
+        <option value="Africa">África</option>
+        <option value="Americas">Américas</option>
+        <option value="Asia">Ásia</option>
+        <option value="Europe">Europa</option>
+        <option value="Oceania">Oceania</option>
+      </select>
+    </section>
+    <p id="mensagem" role="status"></p>
+    <section id="listaPaises" class="grade" aria-label="Lista de países"></section>
+  </main>
+  <footer class="rodape">
+    <p>Projeto de Web Development: Front-End · PUCPR · Dados: <a href="https://restcountries.com/">REST Countries</a></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+/* ===== Estilo base do body ===== */
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--texto);
+  background-color: var(--fundo);
+}
+
+/* ===== Cores (claro e escuro) ===== */
+:root {
+  --fundo: #eef4f8;
+  --texto: #16242f;
+  --superficie: white;
+  --borda: rgb(190, 205, 215);
+  --destaque: hsl(205, 80%, 30%);
+  --destaque-texto: white;
+  --erro: #b42318;
+}
+body.escuro {
+  --fundo: #12181b;
+  --texto: #e6eef3;
+  --superficie: #1c262a;
+  --borda: rgb(58, 78, 92);
+  --destaque: hsl(38, 90%, 58%);
+  --destaque-texto: #0f1a24;
+  --erro: #ff8a80;
+}
+
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+h1 { font-size: 2.2rem; margin: 0 0 12px; }
+h2 { font-size: 1.5rem; margin: 24px 0 8px; }
+h3 { font-size: 1.15rem; margin: 8px 0; }
+a { color: var(--destaque); }
+
+/* ===== Cabeçalho e menu (Flexbox) ===== */
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 24px;
+  background-color: var(--superficie);
+  border-bottom: 2px solid var(--borda);
+}
+.logo { font-size: 1.2rem; color: var(--destaque); }
+.menu { display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap; }
+.menu > a { text-decoration: none; padding: 4px 8px; color: var(--texto); border-bottom: 3px solid transparent; }
+.menu > a:hover { border-bottom-color: var(--destaque); }
+.menu > a[aria-current="page"] { border-bottom-color: var(--destaque); font-weight: bold; }
+
+/* ===== Botões ===== */
+.botao {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 2px solid var(--destaque);
+  border-radius: 6px;
+  background-color: var(--destaque);
+  color: var(--destaque-texto);
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+.botao:hover { opacity: 0.85; }
+.botao:focus { outline: 3px solid var(--texto); outline-offset: 2px; }
+
+/* ===== Cartões e seções ===== */
+.cartao {
+  margin: 12px 0;
+  padding: 16px;
+  width: auto;
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+}
+.cartao > figure { margin: 0 0 8px; }
+.cartao img { width: 100%; height: 140px; object-fit: cover; border: 1px solid var(--borda); border-radius: 6px; }
+.cartao figcaption { font-weight: bold; margin-top: 6px; }
+.cartao p { margin: 4px 0; }
+.cartao .botao { margin-top: 10px; }
+.cartao .botao.marcado { background-color: transparent; color: var(--destaque); }
+.cartao h2 + p { color: var(--texto); }
+
+.apresentacao { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.apresentacao > div { flex: 1 1 300px; }
+.apresentacao figure { margin: 0; flex: 0 1 240px; }
+.apresentacao img { width: 100%; border-radius: 8px; border: 2px solid var(--borda); }
+.aviso { padding: 12px 16px; margin-top: 12px; border-left: 6px solid var(--destaque); background-color: var(--superficie); }
+.aviso::before { content: "Dica: "; font-weight: bold; color: var(--destaque); }
+
+/* ===== Grid da página Explorar ===== */
+.grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+/* ===== Formulários ===== */
+label { display: block; margin: 12px 0 4px; font-weight: bold; }
+input, select, textarea {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--texto);
+  background-color: var(--superficie);
+  border: 2px solid var(--borda);
+  border-radius: 6px;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--destaque); }
+input[type="email"] { border-style: dashed; }
+input::placeholder { color: gray; }
+.erro { border-color: var(--erro); }
+.controles { margin-bottom: 16px; }
+#listaEstatisticas { padding-left: 20px; }
+#resultadoEnvio, #resultadoCalculo, #mensagem { font-weight: bold; }
+
+.rodape { text-align: center; padding: 16px; border-top: 2px solid var(--borda); background-color: var(--superficie); }
+
+/* ===== Responsivo ===== */
+@media (max-width: 800px) { .grade { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) {
+  .grade { grid-template-columns: 1fr; }
+  h1 { font-size: 1.7rem; }
+  .cabecalho { padding: 12px 16px; }
+}

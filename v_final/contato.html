@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato | Mundo em Viagem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="cabecalho">
+    <strong class="logo">Mundo em Viagem</strong>
+    <nav class="menu" aria-label="Menu principal">
+        <a href="index.html">Início</a>
+        <a href="explorar.html">Explorar</a>
+        <a href="ferramentas.html">Ferramentas</a>
+        <a href="contato.html" aria-current="page">Contato</a>
+    </nav>
+    <button type="button" id="botaoTema" class="botao">Modo escuro</button>
+  </header>
+  <main>
+    <h1>Contato</h1>
+    <section class="cartao">
+      <h2>Sugira um destino</h2>
+      <form id="formContato">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" required>
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" name="telefone" placeholder="(41) 99999-9999">
+        <label for="idade">Idade</label>
+        <input type="number" id="idade" name="idade" min="1" max="120" required>
+        <label for="mensagemTexto">Mensagem</label>
+        <textarea id="mensagemTexto" name="mensagem" rows="4" required></textarea>
+        <button type="submit" class="botao">Enviar mensagem</button>
+      </form>
+      <p id="resultadoEnvio" role="status"></p>
+    </section>
+  </main>
+  <footer class="rodape">
+    <p>Projeto de Web Development: Front-End · PUCPR · Dados: <a href="https://restcountries.com/">REST Countries</a></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
