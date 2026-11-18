@@ -1,62 +1,60 @@
 # Mundo em Viagem
 
-**Tema:** países e viagens: catálogo de países com destinos favoritos e divisão do custo da viagem.
-**Site publicado:** (preencher com o link publicado no GitHub Pages)
+Site para pesquisar países e calcular o custo de uma viagem.
 
-## Integrantes e contribuições
-| Integrante | O que fez |
+# Integrantes
+
+- Felipe Portella Mendes 
+- Pedro Henrique Gabardo Igeski
+- Victor Alves da Luz
+- Vitor Marczak da Silva
+
+## API
+
+- GET: `https://restcountries.com/v3.1/all?fields=name,translations,flags,capital,region,population,currencies,cca3`
+- POST: `https://jsonplaceholder.typicode.com/posts` (formulário de contato; resposta simulada)
+
+## TDE 01 — Funções
+
+| Função | O que faz |
 |---|---|
-| (nome do integrante) | (descrever contribuição real) |
-| (nome do integrante) | (descrever contribuição real) |
-| (nome do integrante) | (descrever contribuição real) |
+| `somar(a, b)` | Soma dois valores. |
+| `subtrair(a, b)` | Subtrai dois valores. |
+| `multiplicar(a, b)` | Multiplica dois valores. |
+| `dividir(a, b)` | Divide; avisa se o divisor for zero. |
+| `calcular(a, b, operacao)` | Executa uma operação recebida como callback. |
+| `calcularMedia(numeros)` | Calcula a média de um array. |
+| `filtrarPor(lista, condicao)` | Filtra um array usando uma condição. |
+| `formatarReais(valor)` | Formata um valor em reais. |
+| `calcularViagem()` | Lê os campos da calculadora e mostra os resultados. |
+| `mostrarEstatisticas()` | Calcula estatísticas dos países favoritos. |
 
-## API usada
-- GET `https://restcountries.com/v3.1/all?fields=name,translations,flags,capital,region,population,currencies,cca3` (página Explorar; a API exige o parâmetro `fields` neste endpoint)
-- POST `https://jsonplaceholder.typicode.com/posts` (página Contato, retorna status 201)
+As funções são usadas na página/aba **Ferramentas**.
 
-## TDE 01 · Funções em JS
-Ferramenta: **dividir o custo da viagem entre os viajantes** (página Ferramentas).
+## TDE 02 — Debugging
 
-| Função | Recebe | Devolve | Onde é usada |
-|---|---|---|---|
-| `somar(a, b)` | dois números | a + b | total da viagem; `calcularMedia` |
-| `subtrair(a, b)` | dois números | a − b | sobra ou falta do orçamento |
-| `multiplicar(a, b)` | dois números | a × b | hospedagem (diária × noites) |
-| `dividir(a, b)` | dois números | a ÷ b, ou mensagem se b for 0 | valor por viajante; `calcularMedia` |
-| `calcular(a, b, operacao)` | dois números e uma função (**callback**) | resultado da operação | `calcularViagem` (chamada com `somar`, `dividir`, `multiplicar`, `subtrair`) |
-| `calcularViagem()` | nada (lê os campos) | nada (escreve o resultado na tela) | botão Calcular |
-| `calcularMedia(numeros)` (arrow) | array de números | média | gastos da viagem; população dos favoritos |
-| `filtrarPor(lista, condicao)` (arrow) | array e uma função de condição (callback) | novo array filtrado | gastos acima da média; países com muita população |
-| `formatarReais(valor)` (arrow) | número | texto em R$ | resultados da calculadora |
-| `function () {...}` anônima | evento de clique | nada | `addEventListener` do botão Calcular |
+Bugs e erros que teve ao decorrer do projeto:
 
-## TDE 02 · Debugging
+### Bug 1 — Erro da API
 
-**Importante:** os problemas abaixo foram identificados durante a revisão do código entregue. Para cumprir integralmente o TDE, o grupo deve registrar a investigação real realizada no DevTools, incluindo mensagens/sintomas, prints e evidências. Não afirmem que usaram breakpoint, Scope/Watch ou Network sem realizar e capturar essas etapas.
+Inicialmente iriamos usar a API REST Countries, mas de prontidão ao testar retornou erro.
+Ao entrar no link novo indicado pela API e pesquisando sobre, a nova versão requer autenticação.
 
-### Bug 1 — Divisão do custo por zero viajantes (lógica)
-- **Sintoma:** o campo de viajantes permitia valor `0`; ao calcular, a função de divisão retornava uma mensagem, mas os demais resultados continuavam sendo exibidos.
-- **Identificação:** revisão do campo `#viajantes` e do fluxo da função `calcularViagem()`.
-- **Antes:** `min="0"` e cálculo prosseguia mesmo com zero viajantes.
-- **Depois:** o campo exige mínimo de 1 e a função valida todos os valores antes de calcular; se inválidos, mostra mensagem e interrompe.
-- **Evidência DevTools:** (adicionar print do teste com 0 viajantes e, se solicitado, breakpoint/Scope ou Watch).
+![Esquema do projeto](erro_api.png)
+![Esquema do projeto](erro2_api.png)
 
-### Bug 2 — Valores negativos nos custos
-- **Sintoma:** apesar dos atributos `min` nos inputs, era possível digitar valores negativos e acionar o cálculo, produzindo total/saldo incoerentes.
-- **Identificação:** teste manual dos campos de custo com valores negativos.
-- **Antes:** os valores eram convertidos com `Number()` e usados diretamente nas operações.
-- **Depois:** validação JavaScript verifica valores vazios, não numéricos e negativos; campos inválidos recebem a classe `.erro` e o cálculo é interrompido.
-- **Evidência DevTools:** (adicionar print do teste e da validação).
+Pesqsuisamos e usamos a api rest.
 
-### Bug 3 — Dados inesperados no Local Storage
-- **Sintoma:** se a chave de favoritos contivesse JSON válido, mas não um array, o código poderia falhar ao usar métodos de array.
-- **Identificação:** revisão/teste da chave `favoritosPaises` no Application → Local Storage.
-- **Antes:** o valor parseado era usado diretamente como `favoritos`.
-- **Depois:** o código verifica `Array.isArray()` e mantém apenas itens com código de país válido.
-- **Evidência DevTools:** (adicionar print do teste com valor inválido no Local Storage).
+### Bug 2 — Erro ao criar cartões (DOM)
 
-### Evidências obrigatórias a completar pelo grupo
-- [ ] Pelo menos 1 print do código pausado em breakpoint com Scope ou Watch visível.
-- [ ] Pelo menos 1 investigação de requisição na aba Network (registrar a falha real observada, status/URL e correção; não inventar uma falha).
-- [ ] Confirmar os sintomas e as ferramentas realmente usadas nos três registros acima e ajustar a descrição, se necessário.
+Os países não estavam carregando ainda, mesmo depois de trocar e validar a API. Após o breakpoint e mensagem de erro do console, vimos o nome errado de listaPais, sendo o correto listaPaises
 
+![Esquema do projeto](errocartaocs.png)
+![Esquema do projeto](erro_cartao.png)
+
+### Bug 3 — Erro na soma
+
+As lógicas para a ferramenta de dividir os custos estavam certa, exceto no uso da chamada de função. Duplicamos o subtrair, oq fez apresentar valores negativos no valor para cada pessoa, o que não faz sentido algum.
+
+![Esquema do projeto](errocalculo.png)
+![Esquema do projeto](erronegativo.png)

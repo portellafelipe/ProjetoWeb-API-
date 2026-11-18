@@ -1,5 +1,5 @@
 // ===== Constantes =====
-const API_URL = "https://restcountries.com/v3.1/all?fields=name,translations,flags,capital,region,population,currencies,cca3";
+const API_URL = "https://countries.dev/countries?fields=name,alpha2Code,alpha3Code,capital,region,population,currencies,flag,flags";
 const POST_URL = "https://jsonplaceholder.typicode.com/posts";
 const CHAVE_FAVORITOS = "favoritosPaises";
 const CHAVE_TEMA = "modoEscuro";
@@ -77,7 +77,26 @@ function criarInfo(rotulo, valor) {
 
 // Nome do país em português (com alternativa em inglês)
 function nomeDoPais(pais) {
-  return pais.translations && pais.translations.por ? pais.translations.por.common : pais.name.common;
+  return pais.name;
+}
+
+// Adapta os dados da countries.dev para o formato usado pelos cartões.
+function adaptarPais(pais) {
+  const codigo = pais.alpha2Code || "";
+  const bandeira = pais.flags && (pais.flags.png || pais.flags.svg)
+    ? pais.flags.png || pais.flags.svg
+    : "https://flagcdn.com/w320/" + codigo.toLowerCase() + ".png";
+  return {
+    name: pais.name,
+    capital: pais.capital ? [pais.capital] : [],
+    region: pais.region,
+    population: pais.population || 0,
+    currencies: Array.isArray(pais.currencies) ? pais.currencies : [],
+    cca3: pais.alpha3Code,
+    cca2: codigo,
+    flagEmoji: pais.flag || "",
+    flags: { png: bandeira, alt: "Bandeira de " + pais.name }
+  };
 }
 
 function ehFavorito(codigo) {
@@ -115,12 +134,26 @@ function criarCartao(pais) {
   imagem.src = pais.flags.png;
   imagem.alt = pais.flags.alt || "Bandeira de " + nome;
   imagem.loading = "lazy";
+  imagem.onerror = () => {
+    const alternativa = pais.cca2
+      ? "https://flagcdn.com/w320/" + pais.cca2.toLowerCase() + ".png"
+      : "";
+    if (alternativa && imagem.src !== alternativa) {
+      imagem.src = alternativa;
+    } else {
+      const emoji = document.createElement("span");
+      emoji.className = "bandeira-emoji";
+      emoji.textContent = pais.flagEmoji || "🏳️";
+      emoji.setAttribute("aria-label", imagem.alt);
+      imagem.replaceWith(emoji);
+    }
+  };
   const legenda = document.createElement("figcaption");
   legenda.textContent = nome;
   figura.appendChild(imagem);
   figura.appendChild(legenda);
 
-  const moedas = Object.values(pais.currencies || {}).map((m) => m.name);
+  const moedas = (pais.currencies || []).map((m) => m.name || m.code).filter(Boolean);
   const botao = document.createElement("button");
   botao.type = "button";
   botao.className = "botao";
@@ -162,11 +195,12 @@ async function carregarPaises() {
       throw new Error("Erro HTTP " + resposta.status);
     }
     const dados = await resposta.json();
-    // Ordena de A a Z pelo nome em português
-    listaDePaises = dados.sort((a, b) => nomeDoPais(a).localeCompare(nomeDoPais(b), "pt-BR"));
+    // Adapta o formato da API e ordena os países de A a Z.
+    listaDePaises = dados.map(adaptarPais).sort((a, b) => nomeDoPais(a).localeCompare(nomeDoPais(b), "pt-BR"));
     mostrarCartoes();
   } catch (erro) {
     mensagem.textContent = "Não foi possível carregar os países. Verifique sua conexão e recarregue a página.";
+    console.error("Erro ao carregar países:", erro);
   }
 }
 
